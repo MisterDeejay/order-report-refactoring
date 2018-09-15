@@ -1,9 +1,9 @@
 require_relative 'class_validator'
 
 class DateValidator < ClassValidator
-  CLASSES = ['Date'.freeze, 'DateTime'.freeze, 'Time'.freeze]
+  KLASS = 'Date'.freeze
 
   def initialize(date)
-    super(date, CLASSES)
+    super(date, KLASS)
   end
 end

@@ -31,8 +31,15 @@ class RangeCalculator
     end
   end
 
-  def validate_date_input
-    DateValidator.new(@start_date).validate
-    DateValidator.new(@end_date).validate
+  def validate_start_date
+    DateValidator.new(@start_date).valid? ||
+      DateTimeValidator.new(@start_date).valid? ||
+      TimeValidator.new(@start_date).valid?
+  end
+
+  def validate_end_date
+    DateValidator.new(@end_date).valid? ||
+      DateTimeValidator.new(@end_date).valid? ||
+      TimeValidator.new(@end_date).valid?
   end
 end
