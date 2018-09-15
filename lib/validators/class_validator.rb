@@ -1,12 +1,12 @@
 require 'date'
 
 # This class validates the class of the input
-# object. The #valid? method allows us to test
-# if the string passed in as input matches the
-# class of the object also passed in as input.
+# object. The #valid? method tests if the string
+# passed in as input matches the class of the
+# object also passed in as input.
 class ClassValidator
 
-  # Remember the object and class used to validate
+  # Stores the input arguments as instance variables
   def initialize(object, klass)
     @object = object
     @klass = klass
