@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'date'
-require 'byebug'
 
 describe RangeCalculator do
   describe '#execute' do
@@ -19,14 +18,38 @@ describe RangeCalculator do
       expect(orders_within_range.include?(order_out_of_range)).to be_falsey
     end
 
-    context 'with an invalid objects array as input' do
-      it 'uses an ObjectsRespondsToValidator to raise an InvalidObjectError' do
-        expect(ObjectRespondsToValidator).to receive(:new).with(order_out_of_range, :each).and_call_original
-        expect(ObjectRespondsToValidator).to receive(:new).with(order_out_of_range, :empty?).and_call_original
+    context 'objects_arr argument values' do
+      context 'passing on object rather than an array of objects' do
+        it 'uses an ObjectsRespondsToValidator to raise an InvalidObjectError' do
+          expect(ObjectRespondsToValidator).to receive(:new).with(order_out_of_range, :each).and_call_original
+          expect(ObjectRespondsToValidator).to receive(:new).with(order_out_of_range, :empty?).and_call_original
 
-        expect do
-          RangeCalculator.new(order_out_of_range, :placed_at, start_date, end_date).execute
-        end.to raise_error(InvalidObjectError)
+          expect do
+            RangeCalculator.new(order_out_of_range, :placed_at, start_date, end_date).execute
+          end.to raise_error(InvalidObjectError)
+        end
+      end
+
+      context 'passing an array of nil rather than an array of objects' do
+        it 'uses an ObjectsRespondsToValidator to raise an InvalidObjectError' do
+          expect(ObjectRespondsToValidator).to receive(:new).with([nil, nil, nil], :each).and_call_original
+          expect(ObjectRespondsToValidator).to receive(:new).with([nil, nil, nil], :empty?).and_call_original
+          expect(ObjectRespondsToValidator).to receive(:new).with(nil, :placed_at).and_call_original
+
+          expect do
+            RangeCalculator.new([nil, nil, nil], :placed_at, start_date, end_date).execute
+          end.to raise_error(InvalidObjectError)
+        end
+      end
+
+      context 'passing nil rather than an array of objects' do
+        it 'uses an ObjectsRespondsToValidator to raise an InvalidObjectError' do
+          expect(ObjectRespondsToValidator).to receive(:new).with(nil, :each).and_call_original
+
+          expect do
+            RangeCalculator.new(nil, :placed_at, start_date, end_date).execute
+          end.to raise_error(InvalidObjectError)
+        end
       end
     end
 
@@ -36,7 +59,7 @@ describe RangeCalculator do
 
         expect do
           RangeCalculator.new(orders, :placed_at, nil, end_date).execute
-        end.to raise_error(TypeError)
+        end.to raise_error(RangeCalculatorError)
       end
     end
 
@@ -47,7 +70,7 @@ describe RangeCalculator do
 
         expect do
           RangeCalculator.new(orders, :placed_at, start_date, nil).execute
-        end.to raise_error(TypeError)
+        end.to raise_error(RangeCalculatorError)
       end
     end
 

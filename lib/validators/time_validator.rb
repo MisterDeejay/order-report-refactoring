@@ -8,7 +8,7 @@ require_relative 'class_validator'
 # In the case of this class, the input string is
 # stored in a constant named KLASS in order to
 # validate Time objects correctly.
-class DateValidator < ClassValidator
+class TimeValidator < ClassValidator
   KLASS = 'Time'.freeze
 
   # Calls the parent class constructor passing
