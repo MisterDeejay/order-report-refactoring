@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'date'
 require 'byebug'
 
-describe OrdersReport do
+describe OrderReport do
   describe '#execute' do
     it 'returns total sales in range' do
       order_within_range1 = Order.new(5, Date.new(2016, 10, 10))
@@ -13,7 +13,7 @@ describe OrdersReport do
       start_date = Date.new(2016, 10, 1)
       end_date = Date.new(2016, 10, 31)
 
-      expect(OrdersReport.new(orders, start_date, end_date).execute).to eq(15)
+      expect(OrderReport.new(orders, start_date, end_date).execute).to eq(15)
     end
   end
 end
